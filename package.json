@@ -1,0 +1,20 @@
+{
+  "name": "simple-color-picker-root",
+  "version": "1.0.0",
+  "description": "Root package.json for the Simple Color Picker monorepo.",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "frontend"
+  ],
+  "devDependencies": {
+    "lerna": "^7.4.2" 
+  }
+}

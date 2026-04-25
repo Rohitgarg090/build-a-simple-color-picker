@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @map("user_id") // Supabase auth user ID, provided externally
+  email     String    @unique
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime  @updatedAt @map("updated_at")
+  favoriteColors UserFavoriteColor[]
+
+  @@map("users")
+}
+
+model Color {
+  id        String    @id @default(uuid()) @map("color_id")
+  hex_code  String    @unique @map("hex_code")
+  r_value   Int       @map("r_value")
+  g_value   Int       @map("g_value")
+  b_value   Int       @map("b_value")
+  name      String?   @map("color_name") // Optional name for the color
+  created_at DateTime  @default(now()) @map("created_at")
+  updated_at DateTime  @updatedAt @map("updated_at")
+  favoritedBy UserFavoriteColor[]
+
+  @@map("colors")
+}
+
+model UserFavoriteColor {
+  user_id   String
+  color_id  String
+  created_at DateTime @default(now()) @map("created_at")
+
+  user      User  @relation(fields: [user_id], references: [id])
+  color     Color @relation(fields: [color_id], references: [id])
+
+  @@id([user_id, color_id])
+  @@map("user_favorite_colors")
+}
